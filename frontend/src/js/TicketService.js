@@ -3,13 +3,71 @@
  *  Содержит методы для отправки запросов на сервер и получения ответов
  * */
 export default class TicketService {
-  list(callback) {}
+  
+    list(callback) {
+  fetch('http://localhost:7070/?method=allTickets')
+    .then((response) => response.json())
+    .then((data) => {
+      callback(data); // вызываем функцию и передаём туда массив тикетов
+    })
+    .catch((error) => {
+      console.error('Ошибка загрузки тикетов:', error);
+    });
+}
 
-  get(id, callback) {}
+  
 
-  create(data, callback) {}
+  get(id, callback) {
+  fetch(`http://localhost:7070/?method=ticketById&id=${id}`)
+    .then((response) => {
+      if (!response.ok) throw new Error('Ошибка получения тикета');
+      return response.json();
+    })
+    .then((ticketData) => {
+      callback(ticketData);
+    })
+    .catch((error) => {
+      console.error('Ошибка при получении тикета:', error);
+    });
+}
+
+
+  create(data, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://localhost:7070/?method=createTicket');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  xhr.addEventListener('load', () => {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      try {
+        const response = JSON.parse(xhr.responseText);
+        callback(response); // вернём объект нового тикета
+      } catch (e) {
+        console.error('Ошибка парсинга ответа:', e);
+      }
+    } else {
+      console.error('Ошибка при создании тикета:', xhr.status);
+    }
+  });
+
+  xhr.send(JSON.stringify(data));
+}
+
 
   update(id, data, callback) {}
 
-  delete(id, callback) {}
+  delete(id, callback) {
+  fetch(`http://localhost:7070?method=deleteById&id=${id}`, {
+    method: 'GET',
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error('Ошибка удаления');
+      return response.text();
+    })
+    .then(() => {
+      callback(); // вызывает перерисовку
+    })
+    .catch((err) => console.error('Ошибка при удалении тикета:', err));
+}
+
 }

@@ -8,23 +8,31 @@ export default class TicketView {
     this.tickets = tickets;
   }
   renderTickets() {
-    for (let el of tickets) {
+    for (let el of this.tickets) {
       const html = `
-      <div class="tiket">
-      <input type="checkbox">
-      <p class="text">${el.name}</p>
-      <p class="data">${el.created}</p>
-      <div class="btn-wrapper">
-        <button class="btn-edit">+</button>
-        <button class="btn-delete">&times</button>
-      </div>
+  <div class="ticket" data-id="${el.id}">
+  
+  <input type="checkbox" class="ticket-status" ${el.status ? 'checked' : ''}>
+  
+  <span class="ticket-title">${el.name}</span>
+  <div class="ticket-description" style="display: none;">${el.description}</div>
+
+    <span class="ticket-date">${new Date(el.created).toLocaleString()}</span>
+    
+    <div class="ticket-actions">
+      <button class="btn btn-edit">✎</button>
+      <button class="btn btn-delete">×</button>
     </div>
-    `
-    this.htmls.push(html)
+  </div>
+`;
+      //${el.created}
+
+    this.htmls.push(html);
     // const root = document.querySelector("#root")
     // root.insertAdjacentHTML("beforeend", html)
   }
-  return htmls
+  return this.htmls.join('');
+  //  return htmls
   }
 }
 

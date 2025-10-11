@@ -1,6 +1,6 @@
 // Сюда импортируются файлы приложения
 import './js/app';
-// import '../style.css';
+import './style.css';
 
 // const rezult = fetch('https://jsonplaceholder.typicode.com/todos/1')
 //       // .then(response => response.json())
