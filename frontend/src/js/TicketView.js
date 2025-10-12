@@ -4,11 +4,12 @@
  * */
 export default class TicketView {
   constructor(tickets) {
-    this.htmls = []
+    this.htmls = [];
     this.tickets = tickets;
   }
+
   renderTickets() {
-    for (let el of this.tickets) {
+    for (const el of this.tickets) {
       const html = `
   <div class="ticket" data-id="${el.id}">
   
@@ -25,14 +26,13 @@ export default class TicketView {
     </div>
   </div>
 `;
-      //${el.created}
+      // ${el.created}
 
-    this.htmls.push(html);
-    // const root = document.querySelector("#root")
-    // root.insertAdjacentHTML("beforeend", html)
-  }
-  return this.htmls.join('');
-  //  return htmls
+      this.htmls.push(html);
+      // const root = document.querySelector("#root")
+      // root.insertAdjacentHTML("beforeend", html)
+    }
+    return this.htmls.join('');
+    //  return htmls
   }
 }
-

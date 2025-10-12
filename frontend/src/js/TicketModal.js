@@ -1,9 +1,9 @@
 export default class TicketModal {
-  constructor({ title = 'Новый тикет', name = '', description = '', onSubmit }) {
+  constructor({ title = 'Новый тикет', defaultName = '', defaultDescription = '', onSubmit }) {
     this.title = title;
-    this.name = name;
-    this.description = description;
-    this.onSubmit = onSubmit; // функция, которую вызываем при нажатии "Ок"
+    this.defaultName = defaultName;
+    this.defaultDescription = defaultDescription;
+    this.onSubmit = onSubmit;
   }
 
   render() {
@@ -16,11 +16,11 @@ export default class TicketModal {
         <form class="modal-form">
           <label>
             Краткое описание
-            <input type="text" name="name" value="${this.name}" required>
+            <input type="text" name="name" required>
           </label>
           <label>
             Подробное описание
-            <textarea name="description">${this.description}</textarea>
+            <textarea name="description"></textarea>
           </label>
           <div class="modal-buttons">
             <button type="button" class="btn-cancel">Отмена</button>
@@ -30,14 +30,20 @@ export default class TicketModal {
       </div>
     `;
 
-    document.body.appendChild(this.modal);
+    document.body.append(this.modal);
+
+    // Проставим значения по умолчанию
+    const nameInput = this.modal.querySelector('input[name="name"]');
+    const descInput = this.modal.querySelector('textarea[name="description"]');
+    nameInput.value = this.defaultName;
+    descInput.value = this.defaultDescription;
 
     // Слушатели
     this.modal.querySelector('.btn-cancel').addEventListener('click', () => this.close());
     this.modal.querySelector('.modal-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = this.modal.querySelector('input[name="name"]').value.trim();
-      const description = this.modal.querySelector('textarea[name="description"]').value.trim();
+      const name = nameInput.value.trim();
+      const description = descInput.value.trim();
       this.onSubmit(name, description);
       this.close();
     });

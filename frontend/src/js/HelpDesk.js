@@ -1,4 +1,4 @@
-import TicketView from "./TicketView";
+import TicketView from './TicketView';
 import TicketModal from './TicketModal.js';
 
 export default class HelpDesk {
@@ -14,57 +14,85 @@ export default class HelpDesk {
     this.loadTickets();
   }
 
-loadTickets() {
-  this.ticketService.list((tickets) => {
-    const ticketView = new TicketView(tickets);
-    const htmlList = ticketView.renderTickets();
-    this.container.innerHTML = htmlList;
+  loadTickets() {
+    this.ticketService.list((tickets) => {
+      const ticketView = new TicketView(tickets);
+      const htmlList = ticketView.renderTickets();
+      this.container.innerHTML = htmlList;
 
-    // Вернём кнопку снова
-    this.renderAddButton();
+      // Вернём кнопку снова
+      this.renderAddButton();
 
-    // Добавим клики по названиям тикетов
-    const titles = this.container.querySelectorAll('.ticket-title');
-    titles.forEach(title => {
-      title.addEventListener('click', () => {
-        const ticketElement = title.closest('.ticket');
-        const ticketId = ticketElement.dataset.id;
+      // Добавим клики по названиям тикетов
+      const titles = this.container.querySelectorAll('.ticket-title');
+      titles.forEach((title) => {
+        title.addEventListener('click', () => {
+          const ticketElement = title.closest('.ticket');
+          const ticketId = ticketElement.dataset.id;
 
-        const existingDesc = ticketElement.querySelector('.ticket-description');
-        if (existingDesc) {
-          existingDesc.remove();
-          return;
-        }
+          const existingDesc = ticketElement.querySelector('.ticket-description');
+          if (existingDesc) {
+            existingDesc.remove();
+            return;
+          }
 
-        this.ticketService.get(ticketId, (ticketData) => {
-          const desc = document.createElement('div');
-          desc.classList.add('ticket-description');
-          desc.textContent = ticketData.description;
+          this.ticketService.get(ticketId, (ticketData) => {
+            const desc = document.createElement('div');
+            desc.classList.add('ticket-description');
+            desc.textContent = ticketData.description;
 
-          title.insertAdjacentElement('afterend', desc);
+            title.insertAdjacentElement('afterend', desc);
+          });
+        });
+      });
+      const deleteButtons = this.container.querySelectorAll('.btn-delete');
+      deleteButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const ticketElement = btn.closest('.ticket');
+          const ticketId = ticketElement.dataset.id;
+
+          // Подтверждение перед удалением
+          const confirmed = confirm('Удалить тикет?');
+          if (!confirmed) return;
+
+          // Удаление тикета через API
+          this.ticketService.delete(ticketId, () => {
+            this.loadTickets(); // перерисовываем список после удаления
+          });
+        });
+      });
+      const editButtons = this.container.querySelectorAll('.btn-edit');
+      editButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const ticketElement = btn.closest('.ticket');
+          const ticketId = ticketElement.dataset.id;
+
+          this.ticketService.get(ticketId, (ticketData) => {
+            const modal = new TicketModal({
+              title: 'Редактировать тикет',
+              defaultName: ticketData.name,
+              defaultDescription: ticketData.description,
+              onSubmit: (name, description) => {
+                this.ticketService.update(
+                  ticketId,
+                  {
+                    name,
+                    description,
+                  },
+                  () => {
+                    modal.close();
+                    this.loadTickets();
+                  },
+                );
+              },
+            });
+
+            modal.render();
+          });
         });
       });
     });
-    const deleteButtons = this.container.querySelectorAll('.btn-delete');
-deleteButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const ticketElement = btn.closest('.ticket');
-    const ticketId = ticketElement.dataset.id;
-
-    // Подтверждение перед удалением
-    const confirmed = confirm('Удалить тикет?');
-    if (!confirmed) return;
-
-    // Удаление тикета через API
-    this.ticketService.delete(ticketId, () => {
-      this.loadTickets(); // перерисовываем список после удаления
-    });
-  });
-});
-
-  });
-}
-
+  }
 
   renderAddButton() {
     const addButton = document.createElement('button');
@@ -86,7 +114,7 @@ deleteButtons.forEach(btn => {
             () => {
               modal.close();
               this.loadTickets();
-            }
+            },
           );
         },
       });
