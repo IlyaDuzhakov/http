@@ -13,18 +13,20 @@ export default class TicketView {
       const html = `
   <div class="ticket" data-id="${el.id}">
   
+  <div class="ticket-body">
   <input type="checkbox" class="ticket-status" ${el.status ? 'checked' : ''}>
-  
   <span class="ticket-title">${el.name}</span>
-  <div class="ticket-description" style="display: none;">${el.description}</div>
-
-    <span class="ticket-date">${new Date(el.created).toLocaleString()}</span>
-    
-    <div class="ticket-actions">
-      <button class="btn btn-edit">✎</button>
-      <button class="btn btn-delete">×</button>
-    </div>
   </div>
+  <span class="ticket-date">${new Date(el.created).toLocaleString()}</span>
+  <div class="ticket-description" style="display: none;">${el.description}</div>
+    
+
+  <div class="ticket-actions">
+    <button class="btn btn-edit">✎</button>
+    <button class="btn btn-delete">×</button>
+  </div>
+</div>
+
 `;
       // ${el.created}
 

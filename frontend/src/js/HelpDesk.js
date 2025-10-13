@@ -1,5 +1,6 @@
 import TicketView from './TicketView';
 import TicketModal from './TicketModal.js';
+import DeleteConfirmModal from './DeleteConfirmModal.js';
 
 export default class HelpDesk {
   constructor(container, ticketService) {
@@ -47,20 +48,24 @@ export default class HelpDesk {
       });
       const deleteButtons = this.container.querySelectorAll('.btn-delete');
       deleteButtons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const ticketElement = btn.closest('.ticket');
-          const ticketId = ticketElement.dataset.id;
+        btn.addEventListener('click', (e) => {
+          const ticketId = e.currentTarget.closest('.ticket').dataset.id;
 
-          // Подтверждение перед удалением
-          const confirmed = confirm('Удалить тикет?');
-          if (!confirmed) return;
-
-          // Удаление тикета через API
-          this.ticketService.delete(ticketId, () => {
-            this.loadTickets(); // перерисовываем список после удаления
+          const confirmModal = new DeleteConfirmModal({
+            onConfirm: () => {
+              this.ticketService.delete(ticketId, () => {
+                this.loadTickets(); // <--- используем правильный метод
+              });
+            },
+            onCancel: () => {
+              console.log('Удаление отменено');
+            },
           });
+
+          confirmModal.render();
         });
       });
+
       const editButtons = this.container.querySelectorAll('.btn-edit');
       editButtons.forEach((btn) => {
         btn.addEventListener('click', () => {

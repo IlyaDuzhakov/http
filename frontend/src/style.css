@@ -40,15 +40,13 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 .ticket {
-  display: flex;
+ display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  border: 1px solid #000000;
-  background-color: white;
-  /* border-radius: 4px; */
-  /* gap: 16px; */
-  /* margin: 10px; */
+  padding: 10px;
+  border: 1px solid black;
+  flex-wrap: wrap; /* нужно для переноса описания */
+  position: relative;
 }
 
 .ticket-status {
@@ -145,14 +143,80 @@ body {
 }
 
 .ticket-description {
-  margin: 8px 0 0 24px; /* отступ слева, чтобы было под заголовком */
-  padding: 6px 10px;
-  background-color: #f9f9f9;
-  border-left: 3px solid #ccc;
+  /* flex-basis: 100%; */
+  margin-top: 8px;
+  /* margin-left: 34px; отступ, чтобы не налезал на checkbox */
+  padding: 5px 10px;
+  /* background-color: #f5f5f5; */
+  /* border-left: 3px solid #ccc; */
   font-size: 14px;
   color: #333;
-  white-space: pre-wrap; /* чтобы переносились строки */
-  max-height: 1000px;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
+  word-wrap: break-word;       /* 🔹 перенос длинных слов */
+  overflow-wrap: break-word;
+  max-width: 350px;
+    white-space: pre-line; 
 }
+
+.btn-add {
+    border: 1px solid #141414;
+    border-radius: 6px;
+    height: 30px;
+    margin-bottom: 10px;
+    color: red;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/*. modal delete.    */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-title {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-buttons .btn-ok {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-buttons .btn-cancel {
+  background-color: #ccc;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
