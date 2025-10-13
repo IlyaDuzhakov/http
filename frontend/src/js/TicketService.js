@@ -4,7 +4,9 @@
  * */
 export default class TicketService {
   list(callback) {
-    fetch('http://localhost:7070/?method=allTickets')
+    fetch('http://localhost:7070/?method=allTickets', {
+      method: 'GET',
+    })
       .then((response) => response.json())
       .then((data) => {
         callback(data); // вызываем функцию и передаём туда массив тикетов
@@ -15,7 +17,9 @@ export default class TicketService {
   }
 
   get(id, callback) {
-    fetch(`http://localhost:7070/?method=ticketById&id=${id}`)
+    fetch(`http://localhost:7070/?method=ticketById&id=${id}`, {
+      method: 'GET',
+    })
       .then((response) => {
         if (!response.ok) throw new Error('Ошибка получения тикета');
         return response.json();
