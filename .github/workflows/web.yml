@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-    eslint:
+  eslint:
     runs-on: ubuntu-latest
 
     defaults:
@@ -33,7 +33,6 @@ jobs:
 
       - run: npm ci
       - run: npm run lint
-
 
   build:
     needs: [eslint]
