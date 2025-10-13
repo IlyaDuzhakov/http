@@ -14,5 +14,5 @@ const request = fetch('http://localhost:7070/?method=allTickets', {
 })
   .then((responce) => responce.json())
   .then((info) => {
-    console.log(info);
+    // console.log(info);
   }); // ? query параметр, то есть какие-то данные при запросе

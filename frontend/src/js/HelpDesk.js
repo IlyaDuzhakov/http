@@ -54,11 +54,11 @@ export default class HelpDesk {
           const confirmModal = new DeleteConfirmModal({
             onConfirm: () => {
               this.ticketService.delete(ticketId, () => {
-                this.loadTickets(); // <--- используем правильный метод
+                this.loadTickets(); // Перерисует тикеты
               });
             },
             onCancel: () => {
-              console.log('Удаление отменено');
+              // console.log('Удаление отменено');
             },
           });
 
@@ -108,7 +108,7 @@ export default class HelpDesk {
       const modal = new TicketModal({
         title: 'Добавить тикет',
         onSubmit: (name, description) => {
-          console.log('Создаём тикет:', name, description);
+          // console.log('Создаём тикет:', name, description);
 
           this.ticketService.create(
             {
