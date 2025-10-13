@@ -10,7 +10,7 @@ export default class TicketService {
         callback(data); // вызываем функцию и передаём туда массив тикетов
       })
       .catch((error) => {
-        // console.error('Ошибка загрузки тикетов:', error);
+        console.error('Ошибка загрузки тикетов:', error);
       });
   }
 
@@ -24,7 +24,7 @@ export default class TicketService {
         callback(ticketData);
       })
       .catch((error) => {
-        // console.error('Ошибка при получении тикета:', error);
+        console.error('Ошибка при получении тикета:', error);
       });
   }
 
@@ -39,10 +39,10 @@ export default class TicketService {
           const response = JSON.parse(xhr.responseText);
           callback(response); // вернём объект нового тикета
         } catch (e) {
-          // console.error('Ошибка парсинга ответа:', e);
+          console.error('Ошибка парсинга ответа:', e);
         }
       } else {
-        // console.error('Ошибка при создании тикета:', xhr.status);
+        console.error('Ошибка при создании тикета:', xhr.status);
       }
     });
 
@@ -67,7 +67,7 @@ export default class TicketService {
         if (callback) callback(updatedTicket);
       })
       .catch((error) => {
-        // console.error('Ошибка при обновлении:', error);
+        console.error('Ошибка при обновлении:', error);
       });
   }
 

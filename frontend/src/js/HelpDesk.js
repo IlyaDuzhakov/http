@@ -1,6 +1,6 @@
 import TicketView from './TicketView';
-import TicketModal from './TicketModal.js';
-import DeleteConfirmModal from './DeleteConfirmModal.js';
+import TicketModal from './TicketModal';
+import DeleteConfirmModal from './DeleteConfirmModal';
 
 export default class HelpDesk {
   constructor(container, ticketService) {
