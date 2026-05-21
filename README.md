@@ -36,6 +36,10 @@ Backend: https://http-dec8.onrender.com
 * Express
 * Render
 
+## Screenshot
+
+![HelpDesk Screenshot](./frontend/screenshots/helpdesk-demo.png)
+
 ![CI](https://github.com/IlyaDuzhakov/http/actions/workflows/web.yml/badge.svg)
 https://ilyaduzhakov.github.io/http/
 
